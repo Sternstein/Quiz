@@ -10,11 +10,6 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.Quiz">
     <activity
-      android:exported="false"
-      android:label="@string/title_activity_play"
-      android:name=".PlayActivity"
-      android:theme="@style/Theme.Quiz.NoActionBar" />
-    <activity
       android:exported="true"
       android:name=".MainActivity">
       <intent-filter>

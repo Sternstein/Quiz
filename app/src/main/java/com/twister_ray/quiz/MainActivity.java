@@ -27,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
     final ImageView imageView = findViewById(R.id.imageView);
     final String BASE_URL = "https://quiz.andreygagarin.buzz";
 
-    NetworkService.getInstance().getJsonApi().getAllQuiz().enqueue(new Callback<List<Quiz>>() {
+    NetworkService.getInstance().getJsonApi().getAllQuiz().enqueue(new Callback<List<QuizJson>>() {
       @Override
-      public void onResponse(@NonNull Call<List<Quiz>> call,@NonNull Response<List<Quiz>> response) {
-        List<Quiz> quizzes = response.body();
-        for (Quiz quiz : quizzes) {
+      public void onResponse(@NonNull Call<List<QuizJson>> call,@NonNull Response<List<QuizJson>> response) {
+        List<QuizJson> quizzes = response.body();
+        for (QuizJson quiz : quizzes) {
           String url = BASE_URL + quiz.getImage();
           textView.setText(quiz.getQuestion().getDescription());
           List<AnswerJson> answers = quiz.getAnswerJson();
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
       }
 
       @Override
-      public void onFailure(@NonNull Call<List<Quiz>> call, @NonNull Throwable t) {
+      public void onFailure(@NonNull Call<List<QuizJson>> call, @NonNull Throwable t) {
         textView.append("Error occurred while getting request!");
         t.printStackTrace();
       }

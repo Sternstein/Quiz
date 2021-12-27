@@ -6,5 +6,5 @@ import retrofit2.http.GET;
 
 public interface JsonQuizApi {
   @GET("/quizzes.json")
-  public Call<List<Quiz>> getAllQuiz();
+  public Call<List<QuizJson>> getAllQuiz();
 }
