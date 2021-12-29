@@ -1,13 +1,14 @@
 package com.twister_ray.quiz;
 
+import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.squareup.picasso.Picasso;
+import androidx.lifecycle.ViewModelProvider;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,40 +16,48 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+  private AppViewModel mAppViewModel;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    final TextView textView = findViewById(R.id.textView);
-    final Button button1 = findViewById(R.id.button1);
-    final Button button2 = findViewById(R.id.button2);
-    final Button button3 = findViewById(R.id.button3);
-    final Button button4 = findViewById(R.id.button4);
-    final ImageView imageView = findViewById(R.id.imageView);
-    final String BASE_URL = "https://quiz.andreygagarin.buzz";
-
-    NetworkService.getInstance().getJsonApi().getAllQuiz().enqueue(new Callback<List<QuizJson>>() {
+    final Button button1 = findViewById(R.id.button);
+    final Button categoryButton = findViewById(R.id.button2);
+    mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
+    button1.setOnClickListener(new OnClickListener() {
       @Override
-      public void onResponse(@NonNull Call<List<QuizJson>> call,@NonNull Response<List<QuizJson>> response) {
-        List<QuizJson> quizzes = response.body();
-        for (QuizJson quiz : quizzes) {
-          String url = BASE_URL + quiz.getImage();
-          textView.setText(quiz.getQuestion().getDescription());
-          List<AnswerJson> answers = quiz.getAnswerJson();
-          button1.setText(answers.get(0).getDescription());
-          button2.setText(answers.get(1).getDescription());
-          button3.setText(answers.get(2).getDescription());
-          button4.setText(answers.get(3).getDescription());
-          Picasso.get()
-              .load(url)
-              .into(imageView);
-        }
+      public void onClick(View v) {
+        Log.d("myLog", "Start upload");
+        NetworkService.getInstance().getJsonApi().getAllCategories().enqueue(
+            new Callback<List<QuizCategoryJson>>() {
+              @Override
+              public void onResponse(@NonNull Call<List<QuizCategoryJson>> call,
+                  @NonNull Response<List<QuizCategoryJson>> response) {
+                List<QuizCategoryJson> categories = response.body();
+                for (QuizCategoryJson categoryJson : categories){
+                  Log.d("myLog", String.valueOf(categoryJson.getId()));
+                  Log.d("myLog", categoryJson.getName());
+                  Category category = new Category();
+                  category.setId(categoryJson.getId());
+                  category.setName(categoryJson.getName());
+                  mAppViewModel.insert(category);
+                }
+              }
+
+              @Override
+              public void onFailure(Call<List<QuizCategoryJson>> call, Throwable t) {
+
+              }
+            });
       }
+    });
 
+    categoryButton.setOnClickListener(new OnClickListener() {
       @Override
-      public void onFailure(@NonNull Call<List<QuizJson>> call, @NonNull Throwable t) {
-        textView.append("Error occurred while getting request!");
-        t.printStackTrace();
+      public void onClick(View v) {
+        Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
+        startActivity(intent);
+
       }
     });
   }

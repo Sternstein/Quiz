@@ -19,7 +19,7 @@ public class QuizJson {
 
   @SerializedName("answer")
   @Expose
-  private List<AnswerJson> answerJson;
+  private List<AnswerJson> answerJsonList;
 
   public int getId() {
     return id;
@@ -42,6 +42,6 @@ public class QuizJson {
   }
 
   public List<AnswerJson> getAnswerJson() {
-    return answerJson;
+    return answerJsonList;
   }
 }
