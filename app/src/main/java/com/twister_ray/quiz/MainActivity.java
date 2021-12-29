@@ -17,6 +17,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
   private AppViewModel mAppViewModel;
+  private DataLoader dataLoader;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -24,31 +25,12 @@ public class MainActivity extends AppCompatActivity {
     final Button button1 = findViewById(R.id.button);
     final Button categoryButton = findViewById(R.id.button2);
     mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
+    dataLoader = new DataLoader(mAppViewModel);
     button1.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         Log.d("myLog", "Start upload");
-        NetworkService.getInstance().getJsonApi().getAllCategories().enqueue(
-            new Callback<List<QuizCategoryJson>>() {
-              @Override
-              public void onResponse(@NonNull Call<List<QuizCategoryJson>> call,
-                  @NonNull Response<List<QuizCategoryJson>> response) {
-                List<QuizCategoryJson> categories = response.body();
-                for (QuizCategoryJson categoryJson : categories){
-                  Log.d("myLog", String.valueOf(categoryJson.getId()));
-                  Log.d("myLog", categoryJson.getName());
-                  Category category = new Category();
-                  category.setId(categoryJson.getId());
-                  category.setName(categoryJson.getName());
-                  mAppViewModel.insert(category);
-                }
-              }
-
-              @Override
-              public void onFailure(Call<List<QuizCategoryJson>> call, Throwable t) {
-
-              }
-            });
+        dataLoader.loadCategories();
       }
     });
 

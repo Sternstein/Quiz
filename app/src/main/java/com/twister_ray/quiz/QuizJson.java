@@ -9,6 +9,10 @@ public class QuizJson {
   @Expose
   private int id;
 
+  @SerializedName("score")
+  @Expose
+  private int score;
+
   @SerializedName("image")
   @Expose
   private String image;
@@ -43,5 +47,12 @@ public class QuizJson {
 
   public List<AnswerJson> getAnswerJson() {
     return answerJsonList;
+  }
+
+  public int getScore(){
+    return score;
+  }
+  public void setScore(int score){
+    this.score = score;
   }
 }

@@ -19,11 +19,7 @@ public class CategoryActivity extends AppCompatActivity {
 
     mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
 
-    // Add an observer on the LiveData returned by getAlphabetizedWords.
-    // The onChanged() method fires when the observed data changes and the activity is
-    // in the foreground.
     mAppViewModel.getAllCategories().observe(this, categories -> {
-      // Update the cached copy of the words in the adapter.
       adapter.submitList(categories);
     });
   }

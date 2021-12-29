@@ -1,48 +1,27 @@
 package com.twister_ray.quiz;
 
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import java.util.List;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "quizzes")
 public class Quiz {
-  @SerializedName("id")
-  @Expose
-  private int id;
+  @PrimaryKey(autoGenerate = false)
+  private long id;
 
-  @SerializedName("image")
-  @Expose
-  private String image;
+  private int score;
 
-  @SerializedName("question")
-  @Expose
-  private QuestionJson question;
-
-  @SerializedName("answer")
-  @Expose
-  private List<AnswerJson> answerJson;
-
-  public int getId() {
+  public void setId(long newId){
+    id = newId;
+  }
+  public long getId(){
     return id;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public int getScore(){
+    return score;
   }
-
-  public String getImage() {
-    return image;
-  }
-
-  public void setImage(String image) {
-    this.image = image;
-  }
-
-  public QuestionJson getQuestion() {
-    return question;
-  }
-
-  public List<AnswerJson> getAnswerJson() {
-    return answerJson;
+  public void setScore(int score){
+    this.score = score;
   }
 }
