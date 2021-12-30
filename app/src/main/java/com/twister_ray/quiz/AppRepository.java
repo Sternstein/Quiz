@@ -10,6 +10,8 @@ class AppRepository {
 
   private CategoryDao categoryDao;
   private QuizDao quizDao;
+  private QuestionDao questionDao;
+  private AnswerDao answerDao;
   private LiveData<List<Category>> allCategories;
   private LiveData<List<Quiz>> allQuizzes;
   private Single<Quiz> quiz;
@@ -18,6 +20,8 @@ class AppRepository {
     AppDatabase db = AppDatabase.getDatabase(application);
     categoryDao = db.categoryDao();
     quizDao = db.quizDao();
+    questionDao = db.questionDao();
+    answerDao = db.answerDao();
     allCategories = categoryDao.getAllCategories();
     allQuizzes = quizDao.getAllQuizzes();
   }
@@ -46,6 +50,17 @@ class AppRepository {
   void insertQuiz(Quiz quiz){
     AppDatabase.databaseWriteExecutor.execute(() -> {
       quizDao.insert(quiz);
+    });
+  }
+
+  void insertQuestion(Question question){
+    AppDatabase.databaseWriteExecutor.execute(() -> {
+      questionDao.insert(question);
+    });
+  }
+  void insertAnswer(Answer answer){
+    AppDatabase.databaseWriteExecutor.execute(() -> {
+      answerDao.insert(answer);
     });
   }
 }

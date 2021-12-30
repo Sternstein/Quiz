@@ -7,10 +7,12 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Category.class, Quiz.class}, version = 2, exportSchema = false)
+@Database(entities = {Category.class, Quiz.class, Question.class, Answer.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
   abstract CategoryDao categoryDao();
   abstract QuizDao quizDao();
+  abstract QuestionDao questionDao();
+  abstract AnswerDao answerDao();
 
   private static volatile AppDatabase INSTANCE;
   private static final int NUMBER_OF_THREADS = 4;

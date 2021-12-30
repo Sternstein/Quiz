@@ -8,6 +8,10 @@ public class AnswerJson {
   @Expose
   private int id;
 
+  @SerializedName("question_id")
+  @Expose
+  private int questionId;
+
   @SerializedName("description")
   @Expose
   private String description;
@@ -16,6 +20,12 @@ public class AnswerJson {
   @Expose
   private boolean isValid;
 
+  public int getQuestionId(){
+    return questionId;
+  }
+  public void setQuestionId(int questionId){
+    this.questionId = questionId;
+  }
   public int getId() {
     return id;
   }

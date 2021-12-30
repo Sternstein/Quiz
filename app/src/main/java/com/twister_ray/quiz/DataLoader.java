@@ -55,6 +55,8 @@ public class DataLoader {
           Log.d("myLog", String.valueOf(quizJson.getScore()));
           Log.d("myLog", String.valueOf(quizJson.getId()));
           Log.d("myLog", quizJson.getImage());
+          QuestionJson questionJson = quizJson.getQuestion();
+          List<AnswerJson> answerJsonList =  quizJson.getAnswerJson();
           Quiz quiz = new Quiz();
           quiz.setId(quizJson.getId());
           quiz.setScore(quizJson.getScore());
@@ -62,6 +64,7 @@ public class DataLoader {
           Log.d("myLog", String.valueOf(quiz.getScore()));
           Log.d("myLog", "try to save");
           mAppViewModel.insertQuiz(quiz);
+          saveQuestions(questionJson, answerJsonList, quizJson.getId());
         }
       }
 
@@ -70,6 +73,24 @@ public class DataLoader {
 
       }
     });
+  }
+
+  public void saveQuestions(QuestionJson questionJson, List<AnswerJson> answerJsonList, int quizId){
+    Question question = new Question();
+    question.setId(questionJson.getId());
+    question.setQuiz(quizId);
+    question.setDescription(questionJson.getDescription());
+    for (AnswerJson answerJson: answerJsonList){
+      saveAnswer(answerJson);
+    }
+  }
+
+  public void saveAnswer(AnswerJson answerJson){
+    Answer answer = new Answer();
+    answer.setId(answerJson.getId());
+    answer.setDescription(answerJson.getDescription());
+    answer.setQuestion(answerJson.getQuestionId());
+    answer.setValid(answerJson.getIsValid());
   }
 
 }

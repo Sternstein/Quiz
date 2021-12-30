@@ -43,5 +43,11 @@ public class AppViewModel extends AndroidViewModel {
   void insertQuiz(Quiz quiz) {
     mRepository.insertQuiz(quiz);
   }
+  void insertQuestion(Question question){
+    mRepository.insertQuestion(question);
+  }
+  void insertAnswer(Answer answer){
+    mRepository.insertAnswer(answer);
+  }
 
 }
