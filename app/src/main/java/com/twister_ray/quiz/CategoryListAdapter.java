@@ -19,7 +19,7 @@ public class CategoryListAdapter extends ListAdapter<Category, CategoryViewHolde
   @Override
   public void onBindViewHolder(CategoryViewHolder holder, int position) {
     Category current = getItem(position);
-    holder.bind(current.getName());
+    holder.bind(current.getName(), current.getId());
   }
 
   static class CategoryDiff extends DiffUtil.ItemCallback<Category> {

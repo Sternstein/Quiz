@@ -10,12 +10,20 @@ public class Quiz {
   private long id;
 
   private int score;
+  private long category;
 
-  public void setId(long newId){
-    id = newId;
+  public void setId(long id){
+    this.id = id;
   }
   public long getId(){
     return id;
+  }
+
+  public void setCategory(long category){
+    this.category = category;
+  }
+  public long getCategory(){
+    return category;
   }
 
   public int getScore(){

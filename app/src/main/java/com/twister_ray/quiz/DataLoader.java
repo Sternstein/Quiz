@@ -30,11 +30,11 @@ public class DataLoader {
               Category category = new Category();
               category.setId(categoryJson.getId());
               category.setName(categoryJson.getName());
-              mAppViewModel.insert_category(category);
+              mAppViewModel.insertCategory(category);
               for (QuizJson quizJson : quizJsonList){
                 Log.d("myLog", String.valueOf(quizJson.getId()));
                 Log.d("myLog", String.valueOf(quizJson.getAnswerJson()));
-                loadQuiz(quizJson.getId());
+                loadQuiz(quizJson.getId(), categoryJson.getId());
               }
             }
           }
@@ -46,7 +46,7 @@ public class DataLoader {
         });
   }
 
-  public void loadQuiz(int id){
+  public void loadQuiz(int id, int categoryId){
     NetworkService.getInstance().getJsonApi().getQuizWithID(id).enqueue(new Callback<QuizJson>() {
       @Override
       public void onResponse(Call<QuizJson> call, Response<QuizJson> response) {
@@ -58,9 +58,10 @@ public class DataLoader {
           Quiz quiz = new Quiz();
           quiz.setId(quizJson.getId());
           quiz.setScore(quizJson.getScore());
+          quiz.setCategory(categoryId);
           Log.d("myLog", String.valueOf(quiz.getScore()));
           Log.d("myLog", "try to save");
-          mAppViewModel.insert_quiz(quiz);
+          mAppViewModel.insertQuiz(quiz);
         }
       }
 

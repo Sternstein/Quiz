@@ -9,30 +9,29 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CategoryViewHolder extends RecyclerView.ViewHolder {
+public class QuizViewHolder extends RecyclerView.ViewHolder {
   private final Button button;
 
-  private CategoryViewHolder(View itemView) {
+  private QuizViewHolder(View itemView) {
     super(itemView);
     button = itemView.findViewById(R.id.button);
-  }
-
-  public void bind(String text, long id) {
-    button.setText(text);
     button.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         Context context = v.getContext();
         Intent intent = new Intent(context, QuizActivity.class);
-        intent.putExtra("category",id);
         context.startActivity(intent);
       }
     });
   }
 
-  static CategoryViewHolder create(ViewGroup parent) {
+  public void bind(String text) {
+    button.setText(text);
+  }
+
+  static QuizViewHolder create(ViewGroup parent) {
     View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.recyclerview_item, parent, false);
-    return new CategoryViewHolder(view);
+    return new QuizViewHolder(view);
   }
 }
