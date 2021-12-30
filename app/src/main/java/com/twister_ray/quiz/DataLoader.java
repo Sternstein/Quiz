@@ -16,12 +16,12 @@ public class DataLoader {
 
   public void loadCategories(){
     NetworkService.getInstance().getJsonApi().getAllCategories().enqueue(
-        new Callback<List<QuizCategoryJson>>() {
+        new Callback<List<CategoryJson>>() {
           @Override
-          public void onResponse(@NonNull Call<List<QuizCategoryJson>> call,
-              @NonNull Response<List<QuizCategoryJson>> response) {
-            List<QuizCategoryJson> categories = response.body();
-            for (QuizCategoryJson categoryJson : categories){
+          public void onResponse(@NonNull Call<List<CategoryJson>> call,
+              @NonNull Response<List<CategoryJson>> response) {
+            List<CategoryJson> categories = response.body();
+            for (CategoryJson categoryJson : categories){
               List<QuizJson> quizJsonList = categoryJson.getQuizJsonList();
               Log.d("myLog", String.valueOf(categoryJson.getId()));
               Log.d("myLog", categoryJson.getName());
@@ -40,7 +40,7 @@ public class DataLoader {
           }
 
           @Override
-          public void onFailure(Call<List<QuizCategoryJson>> call, Throwable t) {
+          public void onFailure(Call<List<CategoryJson>> call, Throwable t) {
 
           }
         });

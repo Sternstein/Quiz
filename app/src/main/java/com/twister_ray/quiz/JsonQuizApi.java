@@ -10,7 +10,7 @@ public interface JsonQuizApi {
   public Call<List<QuizJson>> getAllQuiz();
 
   @GET("/categories.json")
-  public Call<List<QuizCategoryJson>> getAllCategories();
+  public Call<List<CategoryJson>> getAllCategories();
 
   @GET("/quizzes/{id}.json")
   public Call<QuizJson> getQuizWithID(@Path("id") int id);
