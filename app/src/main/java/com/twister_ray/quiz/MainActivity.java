@@ -1,6 +1,8 @@
 package com.twister_ray.quiz;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -8,6 +10,9 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 
@@ -23,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
   private AppViewModel mAppViewModel;
   private DataLoader dataLoader;
+  public static final int PERMISSION_WRITE = 0;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     final Button categoryButton = findViewById(R.id.button2);
     mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
     dataLoader = new DataLoader(mAppViewModel);
+    checkPermission();
     mAppViewModel.getQuestionWithAnswers(1).subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(new DisposableSingleObserver<QuestionWithAnswers>() {
@@ -71,4 +78,20 @@ public class MainActivity extends AppCompatActivity {
       }
     });
   }
+
+    public boolean checkPermission() {
+        int READ_EXTERNAL_PERMISSION = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if((READ_EXTERNAL_PERMISSION != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_WRITE);
+            return false;
+        }
+        return true;
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode==PERMISSION_WRITE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.d("myLog", "Permissions are granted");
+        }
+    }
 }

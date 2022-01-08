@@ -33,7 +33,7 @@ public class GameActivity extends AppCompatActivity {
     final Button button4 = findViewById(R.id.button4);
     final ImageView imageView = findViewById(R.id.imageView);
     mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
-    final String BASE_URL = "https://quiz.andreygagarin.buzz";
+
     Bundle extras = getIntent().getExtras();
     quiz = 0;
     if (extras != null) {
