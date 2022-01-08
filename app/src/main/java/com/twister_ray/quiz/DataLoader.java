@@ -80,6 +80,7 @@ public class DataLoader {
     question.setId(questionJson.getId());
     question.setQuiz(quizId);
     question.setDescription(questionJson.getDescription());
+    mAppViewModel.insertQuestion(question);
     for (AnswerJson answerJson: answerJsonList){
       saveAnswer(answerJson);
     }
@@ -91,6 +92,7 @@ public class DataLoader {
     answer.setDescription(answerJson.getDescription());
     answer.setQuestion(answerJson.getQuestionId());
     answer.setValid(answerJson.getIsValid());
+    mAppViewModel.insertAnswer(answer);
   }
 
 }

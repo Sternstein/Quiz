@@ -15,18 +15,19 @@ public class QuizViewHolder extends RecyclerView.ViewHolder {
   private QuizViewHolder(View itemView) {
     super(itemView);
     button = itemView.findViewById(R.id.button);
+  }
+
+  public void bind(long id) {
+    button.setText(String.valueOf(id));
     button.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         Context context = v.getContext();
-        Intent intent = new Intent(context, QuizActivity.class);
+        Intent intent = new Intent(context, GameActivity.class);
+        intent.putExtra("quiz",id);
         context.startActivity(intent);
       }
     });
-  }
-
-  public void bind(String text) {
-    button.setText(text);
   }
 
   static QuizViewHolder create(ViewGroup parent) {

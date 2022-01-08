@@ -31,19 +31,28 @@ public class MainActivity extends AppCompatActivity {
     final Button categoryButton = findViewById(R.id.button2);
     mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
     dataLoader = new DataLoader(mAppViewModel);
-    mAppViewModel.getQuizById(1).subscribeOn(Schedulers.io())
+    mAppViewModel.getQuestionWithAnswers(1).subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new DisposableSingleObserver<Quiz>() {
+        .subscribe(new DisposableSingleObserver<QuestionWithAnswers>() {
           @Override
-          public void onSuccess(@NonNull Quiz quiz) {
-            Log.d("myLog",String.valueOf(quiz.getScore()));
+          public void onSuccess(@NonNull QuestionWithAnswers question) {
+            Log.d("myLog",String.valueOf(question.description));
+            Log.d("myLog",String.valueOf(question.answers));
           }
 
           @Override
           public void onError(@NonNull Throwable e) {
-            Log.d("myLog", "got error");
+
+              Log.d("myLog", e.getMessage());
+              Log.d("myLog", "got error");
           }
         });
+    Log.d("myLog", "Try to get questions");
+    mAppViewModel.getAllQuestions().observe(this, questions -> {
+        for (Question question: questions){
+            Log.d("myLog", String.valueOf(question.getId()));
+        }
+    });
 
     button1.setOnClickListener(new OnClickListener() {
       @Override

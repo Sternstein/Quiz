@@ -15,6 +15,9 @@ class AppRepository {
   private LiveData<List<Category>> allCategories;
   private LiveData<List<Quiz>> allQuizzes;
   private Single<Quiz> quiz;
+  private Single<Question> question;
+  private Single<QuestionWithAnswers> questionWithAnswersSingle;
+  private LiveData<List<Question>> allQuestions;
 
   AppRepository(Application application) {
     AppDatabase db = AppDatabase.getDatabase(application);
@@ -24,6 +27,7 @@ class AppRepository {
     answerDao = db.answerDao();
     allCategories = categoryDao.getAllCategories();
     allQuizzes = quizDao.getAllQuizzes();
+    allQuestions = questionDao.getAllQuestion();
   }
 
   LiveData<List<Category>> getAllCategories() {
@@ -32,6 +36,16 @@ class AppRepository {
   LiveData<List<Quiz>> getAllQuizzes() {
     return allQuizzes;
   }
+  LiveData<List<Question>> getAllQuestion() {return allQuestions;}
+  public Single<QuestionWithAnswers> getQuestionWithAnswers(long id){
+    questionWithAnswersSingle = questionDao.getQuestionAndAnswers(id);
+    return questionWithAnswersSingle;
+  }
+  public Single<Question> getQuestionById(long id){
+    question = questionDao.getQuestion(id);
+    return question;
+  }
+
   public Single<Quiz> getQuizById(long id){
     quiz = quizDao.getById(id);
     return quiz;

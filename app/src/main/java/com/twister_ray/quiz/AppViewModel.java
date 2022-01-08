@@ -11,14 +11,18 @@ public class AppViewModel extends AndroidViewModel {
   private AppRepository mRepository;
   private final LiveData<List<Category>> allCategories;
   private final LiveData<List<Quiz>> allQuizzes;
+  private final LiveData<List<Question>> allQuestions;
   private Single<Quiz> quiz;
   private LiveData<List<Quiz>> allQuizzesWithCategory;
+  private Single<QuestionWithAnswers> questionWithAnswers;
+  private Single<Question> question;
 
   public AppViewModel(Application application) {
     super(application);
     mRepository = new AppRepository(application);
     allCategories = mRepository.getAllCategories();
     allQuizzes = mRepository.getAllQuizzes();
+    allQuestions =  mRepository.getAllQuestion();
   }
 
   public Single<Quiz> getQuizById(long id) {
@@ -26,11 +30,24 @@ public class AppViewModel extends AndroidViewModel {
     return quiz;
   }
 
+  public Single<QuestionWithAnswers> getQuestionWithAnswers(long id){
+    questionWithAnswers = mRepository.getQuestionWithAnswers(id);
+    return questionWithAnswers;
+  }
+
+  public Single<Question> getQuestion(long id){
+    question = mRepository.getQuestionById(id);
+    return question;
+  }
+
   LiveData<List<Category>> getAllCategories() {
     return allCategories;
   }
   LiveData<List<Quiz>> getAllQuizzes() {
     return allQuizzes;
+  }
+  LiveData<List<Question>> getAllQuestions(){
+    return allQuestions;
   }
   LiveData<List<Quiz>> getAllQuizzesWithCategory(long category){
     allQuizzesWithCategory = mRepository.getQuizzesWithCategory(category);
