@@ -22,6 +22,7 @@ import retrofit2.Response;
 public class DataLoader {
   private AppViewModel mAppViewModel;
   String fileUri;
+  final String BASE_URL = "https://quiz.andreygagarin.buzz";
   public DataLoader(AppViewModel appViewModel){
     mAppViewModel = appViewModel;
   }
@@ -73,6 +74,10 @@ public class DataLoader {
           quiz.setId(quizJson.getId());
           quiz.setScore(quizJson.getScore());
           quiz.setCategory(categoryId);
+          String imageName = quiz.getId() + ".jpg";
+          quiz.setImage(imageName);
+          String url = BASE_URL + quizJson.getImage();
+          DownloadImage(url, imageName);
           Log.d("myLog", String.valueOf(quiz.getScore()));
           Log.d("myLog", "try to save");
           mAppViewModel.insertQuiz(quiz);
@@ -107,7 +112,8 @@ public class DataLoader {
     mAppViewModel.insertAnswer(answer);
   }
 
-  public void DownloadImage(String url) {
+  public void DownloadImage(String url, String name) {
+    Log.d("myLog", "upload from "+url);
     Picasso.get().load(url).into(new Target() {
       @Override
       public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -117,7 +123,7 @@ public class DataLoader {
             mydir.mkdirs();
           }
 
-          fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+          fileUri = mydir.getAbsolutePath() + File.separator + name;
           FileOutputStream outputStream = new FileOutputStream(fileUri);
 
           bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);

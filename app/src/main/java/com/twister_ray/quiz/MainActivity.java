@@ -1,6 +1,7 @@
 package com.twister_ray.quiz;
 
 import android.Manifest;
+import android.Manifest.permission;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -81,9 +82,14 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean checkPermission() {
         int READ_EXTERNAL_PERMISSION = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int WRITE_EXTERNAL_PERMISSION = ContextCompat.checkSelfPermission(this, permission.WRITE_EXTERNAL_STORAGE);
         if((READ_EXTERNAL_PERMISSION != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_WRITE);
             return false;
+        }
+        if((WRITE_EXTERNAL_PERMISSION != PackageManager.PERMISSION_GRANTED)) {
+          ActivityCompat.requestPermissions(this, new String[]{permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_WRITE);
+          return false;
         }
         return true;
     }

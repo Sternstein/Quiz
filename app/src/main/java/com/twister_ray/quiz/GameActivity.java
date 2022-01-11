@@ -1,5 +1,6 @@
 package com.twister_ray.quiz;
 
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import com.squareup.picasso.Picasso;
+import java.io.File;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -40,26 +42,43 @@ public class GameActivity extends AppCompatActivity {
       quiz = extras.getLong("quiz");
     }
     if (quiz != 0){
+      mAppViewModel.getQuizById(quiz).subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new DisposableSingleObserver<Quiz>() {
+                       @Override
+                       public void onSuccess(@NonNull Quiz quiz) {
+                         File mydir = new File(Environment.getExternalStorageDirectory() +"");
+                         String name = quiz.getImage();
+                         String fileUri = mydir.getAbsolutePath() + File.separator + name;
+                         File imageFile = new File(fileUri);
+                         Picasso.get().load(imageFile).into(imageView);
+                       }
+
+                       @Override
+                       public void onError(@NonNull Throwable e) {
+
+                       }
+                     });
       mAppViewModel.getQuestionWithAnswers(quiz).subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(new DisposableSingleObserver<QuestionWithAnswers>() {
-                @Override
-                public void onSuccess(@NonNull QuestionWithAnswers question) {
-                  textView.setText(question.description);
-                  List<Answer> answers = question.answers;
-                  button1.setText(answers.get(0).getDescription());
-                  button2.setText(answers.get(1).getDescription());
-                  button3.setText(answers.get(2).getDescription());
-                  button4.setText(answers.get(3).getDescription());
-                }
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new DisposableSingleObserver<QuestionWithAnswers>() {
+            @Override
+            public void onSuccess(@NonNull QuestionWithAnswers question) {
+              textView.setText(question.description);
+              List<Answer> answers = question.answers;
+              button1.setText(answers.get(0).getDescription());
+              button2.setText(answers.get(1).getDescription());
+              button3.setText(answers.get(2).getDescription());
+              button4.setText(answers.get(3).getDescription());
+            }
 
-                @Override
-                public void onError(@NonNull Throwable e) {
+            @Override
+            public void onError(@NonNull Throwable e) {
 
-                  Log.d("myLog", e.getMessage());
-                  Log.d("myLog", "got error");
-                }
-              });
+              Log.d("myLog", e.getMessage());
+              Log.d("myLog", "got error");
+            }
+          });
     }
   }
 }
