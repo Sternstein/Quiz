@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,16 +37,19 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     final Button button1 = findViewById(R.id.button);
     final Button categoryButton = findViewById(R.id.button2);
+    final Button sendName = findViewById(R.id.sendName);
+    final EditText editTextName = findViewById(R.id.editTextName);
     mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
     dataLoader = new DataLoader(mAppViewModel);
     checkPermission();
-    mAppViewModel.getQuestionWithAnswers(1).subscribeOn(Schedulers.io())
+    mAppViewModel.getPlayerSettings().subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new DisposableSingleObserver<QuestionWithAnswers>() {
+        .subscribe(new DisposableSingleObserver<Player>() {
           @Override
-          public void onSuccess(@NonNull QuestionWithAnswers question) {
-            Log.d("myLog",String.valueOf(question.description));
-            Log.d("myLog",String.valueOf(question.answers));
+          public void onSuccess(@NonNull Player player) {
+            Log.d("myLog", "Settings are found " + player.getUid());
+            Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
+            startActivity(intent);
           }
 
           @Override
@@ -55,12 +59,6 @@ public class MainActivity extends AppCompatActivity {
               Log.d("myLog", "got error");
           }
         });
-    Log.d("myLog", "Try to get questions");
-    mAppViewModel.getAllQuestions().observe(this, questions -> {
-        for (Question question: questions){
-            Log.d("myLog", String.valueOf(question.getId()));
-        }
-    });
 
     button1.setOnClickListener(new OnClickListener() {
       @Override
@@ -76,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
         startActivity(intent);
 
+      }
+    });
+
+    sendName.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        String name = editTextName.getText().toString();
+        dataLoader.registerPlayer(name);
       }
     });
   }

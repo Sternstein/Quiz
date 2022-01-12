@@ -1,6 +1,10 @@
 package com.twister_ray.quiz;
 
+import java.io.IOException;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,7 +17,23 @@ public class NetworkService {
 
 
     OkHttpClient.Builder client = new OkHttpClient.Builder();
+    client.interceptors().add(new Interceptor() {
+      @Override
+      public Response intercept(Chain chain) throws IOException {
+        Request original = chain.request();
 
+        // Настраиваем запросы
+        Request request = original.newBuilder()
+            .header("Accept", "application/json")
+            .header("Authorization", "auth-token")
+            .method(original.method(), original.body())
+            .build();
+
+        Response response = chain.proceed(request);
+
+        return response;
+      }
+    });
     mRetrofit = new Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())

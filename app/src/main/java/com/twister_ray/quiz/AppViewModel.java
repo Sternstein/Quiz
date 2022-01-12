@@ -16,6 +16,7 @@ public class AppViewModel extends AndroidViewModel {
   private LiveData<List<Quiz>> allQuizzesWithCategory;
   private Single<QuestionWithAnswers> questionWithAnswers;
   private Single<Question> question;
+  private Single<Player> playerSettings;
 
   public AppViewModel(Application application) {
     super(application);
@@ -23,6 +24,11 @@ public class AppViewModel extends AndroidViewModel {
     allCategories = mRepository.getAllCategories();
     allQuizzes = mRepository.getAllQuizzes();
     allQuestions =  mRepository.getAllQuestion();
+    playerSettings = mRepository.getPlayerSettings();
+  }
+
+  public Single<Player> getPlayerSettings() {
+    return playerSettings;
   }
 
   public Single<Quiz> getQuizById(long id) {
@@ -65,6 +71,9 @@ public class AppViewModel extends AndroidViewModel {
   }
   void insertAnswer(Answer answer){
     mRepository.insertAnswer(answer);
+  }
+  void setPlayerSettings(Player player){
+    mRepository.insertPlayerSettings(player);
   }
 
 }

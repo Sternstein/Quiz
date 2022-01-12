@@ -144,4 +144,26 @@ public class DataLoader {
     });
   }
 
+  public void registerPlayer(String name){
+    PlayerJson playerRequest = new PlayerJson(name);
+    NetworkService.getInstance().getJsonApi().createPlayer(playerRequest).enqueue(
+        new Callback<PlayerJson>() {
+          @Override
+          public void onResponse(Call<PlayerJson> call, Response<PlayerJson> response) {
+            PlayerJson playerJson = response.body();
+            Player player= new Player();
+            player.setName(playerJson.getName());
+            player.setUid(playerJson.getUid());
+            player.setPassword(playerJson.getPassword());
+            mAppViewModel.setPlayerSettings(player);
+            Log.d("myLog","player settings " + playerJson.getName() + " " + playerJson.getUid() + " " + playerJson.getPassword());
+          }
+
+          @Override
+          public void onFailure(Call<PlayerJson> call, Throwable t) {
+
+          }
+        });
+  }
+
 }

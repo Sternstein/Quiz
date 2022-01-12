@@ -4,21 +4,33 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:orientation="vertical"
   tools:context=".MainActivity">
 
 
   <Button
     android:id="@+id/button"
     android:layout_margin="10dp"
-    android:layout_width="0dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
     android:text="@string/upload" />
   <Button
     android:id="@+id/button2"
     android:layout_margin="10dp"
-    android:layout_width="0dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
     android:text="Categories" />
+  <EditText
+    android:id="@+id/editTextName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:inputType="textPersonName"
+    android:text="Name" />
+  <Button
+    android:id="@+id/sendName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:text="Send name" />
 </LinearLayout>
