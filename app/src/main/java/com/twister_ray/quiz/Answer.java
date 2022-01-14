@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "answers")
 public class Answer {
   @PrimaryKey(autoGenerate = false)
-  private long id;
+  private int id;
   private String description;
-  private long question;
+  private int question;
   private boolean valid;
-  public long getId() {
+  public int getId() {
     return id;
   }
 
@@ -34,10 +34,10 @@ public class Answer {
     this.description = description;
   }
 
-  public long getQuestion(){
+  public int getQuestion(){
     return question;
   }
-  public void setQuestion(long question){
+  public void setQuestion(int question){
     this.question = question;
   }
 }

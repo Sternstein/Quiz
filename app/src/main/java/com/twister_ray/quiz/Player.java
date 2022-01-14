@@ -13,6 +13,7 @@ public class Player {
 
   private String name;
   private String password;
+  private int lives;
 
   public void setName(String name){
     this.name = name;
@@ -33,5 +34,13 @@ public class Player {
   }
   public String getPassword(){
     return password;
+  }
+
+  public int getLives() {
+    return lives;
+  }
+
+  public void setLives(int lives) {
+    this.lives = lives;
   }
 }

@@ -19,7 +19,7 @@ public class QuizListAdapter extends ListAdapter<Quiz, QuizViewHolder> {
   @Override
   public void onBindViewHolder(QuizViewHolder holder, int position) {
     Quiz current = getItem(position);
-    holder.bind(current.getId());
+    holder.bind(current.getId(), current.isFinished());
   }
 
   static class QuizDiff extends DiffUtil.ItemCallback<Quiz> {

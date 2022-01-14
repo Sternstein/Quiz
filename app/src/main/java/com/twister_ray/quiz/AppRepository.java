@@ -41,7 +41,7 @@ class AppRepository {
     return allQuizzes;
   }
   LiveData<List<Question>> getAllQuestion() {return allQuestions;}
-  public Single<QuestionWithAnswers> getQuestionWithAnswers(long id){
+  public Single<QuestionWithAnswers> getQuestionWithAnswers(int id){
     questionWithAnswersSingle = questionDao.getQuestionAndAnswers(id);
     return questionWithAnswersSingle;
   }
@@ -54,7 +54,7 @@ class AppRepository {
     return playerSettings;
   }
 
-  public Single<Quiz> getQuizById(long id){
+  public Single<Quiz> getQuizById(int id){
     quiz = quizDao.getById(id);
     return quiz;
   }
@@ -64,7 +64,7 @@ class AppRepository {
     });
   }
 
-  LiveData<List<Quiz>> getQuizzesWithCategory(long category){
+  LiveData<List<Quiz>> getQuizzesWithCategory(int category){
     allQuizzes = quizDao.getAllQuizzesWithCategory(category);
     return allQuizzes;
   }
@@ -91,4 +91,11 @@ class AppRepository {
       playerDao.insert(player);
     });
   }
+
+  void updateQuiz(long id, boolean isFinished){
+    AppDatabase.databaseWriteExecutor.execute(() -> {
+      quizDao.update(id, isFinished);
+    });
+  }
+
 }

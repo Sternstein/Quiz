@@ -31,12 +31,12 @@ public class AppViewModel extends AndroidViewModel {
     return playerSettings;
   }
 
-  public Single<Quiz> getQuizById(long id) {
+  public Single<Quiz> getQuizById(int id) {
     quiz = mRepository.getQuizById(id);
     return quiz;
   }
 
-  public Single<QuestionWithAnswers> getQuestionWithAnswers(long id){
+  public Single<QuestionWithAnswers> getQuestionWithAnswers(int id){
     questionWithAnswers = mRepository.getQuestionWithAnswers(id);
     return questionWithAnswers;
   }
@@ -55,7 +55,7 @@ public class AppViewModel extends AndroidViewModel {
   LiveData<List<Question>> getAllQuestions(){
     return allQuestions;
   }
-  LiveData<List<Quiz>> getAllQuizzesWithCategory(long category){
+  LiveData<List<Quiz>> getAllQuizzesWithCategory(int category){
     allQuizzesWithCategory = mRepository.getQuizzesWithCategory(category);
     return allQuizzesWithCategory;
   }
@@ -74,6 +74,9 @@ public class AppViewModel extends AndroidViewModel {
   }
   void setPlayerSettings(Player player){
     mRepository.insertPlayerSettings(player);
+  }
+  void updateQuiz(long id, boolean isFinished){
+    mRepository.updateQuiz(id, isFinished);
   }
 
 }

@@ -6,11 +6,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "questions")
 public class Question {
   @PrimaryKey(autoGenerate = false)
-  private long id;
+  private int id;
   private String description;
-  private long quiz;
+  private int quiz;
 
-  public long getId() {
+  public int getId() {
     return id;
   }
 
@@ -26,10 +26,10 @@ public class Question {
     this.description = description;
   }
 
-  public long getQuiz(){
+  public int getQuiz(){
     return quiz;
   }
-  public void setQuiz(long quiz){
+  public void setQuiz(int quiz){
     this.quiz = quiz;
   }
 }

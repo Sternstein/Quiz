@@ -16,10 +16,10 @@ public interface QuizDao {
   LiveData<List<Quiz>> getAllQuizzes();
 
   @Query("SELECT * FROM quizzes where category = :category")
-  LiveData<List<Quiz>> getAllQuizzesWithCategory(long category);
+  LiveData<List<Quiz>> getAllQuizzesWithCategory(int category);
 
   @Query("SELECT * FROM quizzes WHERE id = :id")
-  Single<Quiz> getById(long id);
+  Single<Quiz> getById(int id);
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   void insert(Quiz quiz);
@@ -29,4 +29,7 @@ public interface QuizDao {
 
   @Delete
   void delete(Quiz quiz);
+
+  @Query("UPDATE quizzes SET is_finished = :isFinished WHERE id =:id")
+  void update(long id, boolean isFinished);
 }

@@ -2,6 +2,7 @@ package com.twister_ray.quiz;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,8 +18,11 @@ public class QuizViewHolder extends RecyclerView.ViewHolder {
     button = itemView.findViewById(R.id.button);
   }
 
-  public void bind(long id) {
+  public void bind(int id, boolean isFinished) {
     button.setText(String.valueOf(id));
+    if(isFinished) {
+      button.setBackgroundColor(Color.GREEN);
+    }
     button.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {

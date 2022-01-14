@@ -1,17 +1,20 @@
 package com.twister_ray.quiz;
 
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "quizzes")
 public class Quiz {
   @PrimaryKey(autoGenerate = false)
-  private long id;
+  private int id;
 
   private int score;
-  private long category;
+  private int category;
   private String image;
+  @ColumnInfo(name = "is_finished")
+  private boolean isFinished;
 
   public String getImage() {
     return image;
@@ -20,17 +23,17 @@ public class Quiz {
     this.image = image;
   }
 
-  public void setId(long id){
+  public void setId(int id){
     this.id = id;
   }
-  public long getId(){
+  public int getId(){
     return id;
   }
 
-  public void setCategory(long category){
+  public void setCategory(int category){
     this.category = category;
   }
-  public long getCategory(){
+  public int getCategory(){
     return category;
   }
 
@@ -39,5 +42,13 @@ public class Quiz {
   }
   public void setScore(int score){
     this.score = score;
+  }
+
+  public boolean isFinished() {
+    return isFinished;
+  }
+
+  public void setFinished(boolean finished) {
+    isFinished = finished;
   }
 }

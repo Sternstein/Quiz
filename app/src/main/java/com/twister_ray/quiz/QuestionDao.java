@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -21,8 +22,9 @@ public interface QuestionDao {
   @Query("SELECT * FROM questions where id = :id")
   Single<Question> getQuestion(long id);
 
+  @Transaction
   @Query("SELECT * FROM questions where quiz = :quiz")
-  Single<QuestionWithAnswers> getQuestionAndAnswers(long quiz);
+  Single<QuestionWithAnswers> getQuestionAndAnswers(int quiz);
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   void insert(Question question);

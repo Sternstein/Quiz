@@ -6,13 +6,13 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "categories")
 public class Category {
   @PrimaryKey(autoGenerate = false)
-  private long id;
+  private int id;
   private String name;
 
-  public void setId(long newId){
+  public void setId(int newId){
     id = newId;
   }
-  public long getId(){
+  public int getId(){
     return id;
   }
 

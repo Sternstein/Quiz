@@ -90,10 +90,12 @@ public class MainActivity extends AppCompatActivity {
         int READ_EXTERNAL_PERMISSION = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
         int WRITE_EXTERNAL_PERMISSION = ContextCompat.checkSelfPermission(this, permission.WRITE_EXTERNAL_STORAGE);
         if((READ_EXTERNAL_PERMISSION != PackageManager.PERMISSION_GRANTED)) {
+          Log.d("myLog", "Permission for read not granted!");
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_WRITE);
             return false;
         }
         if((WRITE_EXTERNAL_PERMISSION != PackageManager.PERMISSION_GRANTED)) {
+          Log.d("myLog", "Permission for write not granted!");
           ActivityCompat.requestPermissions(this, new String[]{permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_WRITE);
           return false;
         }

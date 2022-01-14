@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class QuizActivity extends AppCompatActivity {
   private AppViewModel mAppViewModel;
-  private long category;
+  private int category;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -20,7 +20,7 @@ public class QuizActivity extends AppCompatActivity {
     Bundle extras = getIntent().getExtras();
     category = 0;
     if (extras != null) {
-      category = extras.getLong("category");
+      category = extras.getInt("category");
     }
     mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
     if (category != 0) {

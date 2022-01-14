@@ -17,7 +17,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
     button = itemView.findViewById(R.id.button);
   }
 
-  public void bind(String text, long id) {
+  public void bind(String text, int id) {
     button.setText(text);
     button.setOnClickListener(new OnClickListener() {
       @Override
