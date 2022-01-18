@@ -2,6 +2,8 @@ package com.twister_ray.quiz;
 
 import android.Manifest;
 import android.Manifest.permission;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -31,14 +33,15 @@ public class MainActivity extends AppCompatActivity {
   private AppViewModel mAppViewModel;
   private DataLoader dataLoader;
   public static final int PERMISSION_WRITE = 0;
+  FragmentTransaction fTransaction;
+  PlayMenu playMenu;
+  PlayerRegistration playerRegistration;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    final Button button1 = findViewById(R.id.button);
-    final Button categoryButton = findViewById(R.id.button2);
-    final Button sendName = findViewById(R.id.sendName);
-    final EditText editTextName = findViewById(R.id.editTextName);
+    playerRegistration = new PlayerRegistration();
+    playMenu = new PlayMenu();
     mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
     dataLoader = new DataLoader(mAppViewModel);
     checkPermission();
@@ -48,42 +51,20 @@ public class MainActivity extends AppCompatActivity {
           @Override
           public void onSuccess(@NonNull Player player) {
             Log.d("myLog", "Settings are found " + player.getUid());
-            Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
-            startActivity(intent);
+            fTransaction = getSupportFragmentManager().beginTransaction();
+            fTransaction.replace(R.id.fragmentContent, playMenu);
+            fTransaction.commit();
           }
 
           @Override
           public void onError(@NonNull Throwable e) {
-
-              Log.d("myLog", e.getMessage());
-              Log.d("myLog", "got error");
+            Log.d("myLog", e.getMessage());
+            Log.d("myLog", "got error");
+            fTransaction = getSupportFragmentManager().beginTransaction();
+            fTransaction.replace(R.id.fragmentContent, playerRegistration);
+            fTransaction.commit();
           }
         });
-
-    button1.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Log.d("myLog", "Start upload");
-        dataLoader.loadCategories();
-      }
-    });
-
-    categoryButton.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
-        startActivity(intent);
-
-      }
-    });
-
-    sendName.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        String name = editTextName.getText().toString();
-        dataLoader.registerPlayer(name);
-      }
-    });
   }
 
     public boolean checkPermission() {
