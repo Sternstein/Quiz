@@ -1,7 +1,7 @@
 package com.twister_ray.quiz;
 
-import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -22,9 +22,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 public class GameActivity extends AppCompatActivity {
   private AppViewModel mAppViewModel;
@@ -34,6 +32,8 @@ public class GameActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_game);
+    final MediaPlayer winSound = MediaPlayer.create(this, R.raw.win);
+    final MediaPlayer loseSound = MediaPlayer.create(this, R.raw.wrong);
     final TextView textView = findViewById(R.id.textView);
     final TextView playerInformation = findViewById(R.id.textView2);
     final Button button1 = findViewById(R.id.button1);
@@ -112,10 +112,12 @@ public class GameActivity extends AppCompatActivity {
                     if (answer.getValid()) {
                       mAppViewModel.updateQuiz(quizId, true);
                       currentButton.setBackgroundColor(Color.GREEN);
+                      winSound.start();
                       Log.d("myLog","CORRECT ANSWER!");
                       finish();
                     }
                     else {
+                      loseSound.start();
                       Log.d("myLog","WRONG ANSWER!");
                     }
                   }
