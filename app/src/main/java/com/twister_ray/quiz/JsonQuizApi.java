@@ -12,8 +12,8 @@ public interface JsonQuizApi {
   @GET("/quizzes.json")
   public Call<List<QuizJson>> getAllQuiz();
 
-  @GET("/categories.json")
-  public Call<List<CategoryJson>> getAllCategories();
+  @POST("/categories.json")
+  public Call<List<CategoryJson>> getAllCategories(@Body PlayerJson player);
 
   @GET("/quizzes/{id}.json")
   public Call<QuizJson> getQuizWithID(@Path("id") int id);

@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -27,8 +26,8 @@ public class DataLoader {
     mAppViewModel = appViewModel;
   }
 
-  public void loadCategories(){
-    NetworkService.getInstance().getJsonApi().getAllCategories().enqueue(
+  public void loadCategories(PlayerJson player){
+    NetworkService.getInstance().getJsonApi().getAllCategories(player).enqueue(
         new Callback<List<CategoryJson>>() {
           @Override
           public void onResponse(@NonNull Call<List<CategoryJson>> call,
@@ -156,6 +155,7 @@ public class DataLoader {
             player.setUid(playerJson.getUid());
             player.setPassword(playerJson.getPassword());
             mAppViewModel.setPlayerSettings(player);
+            loadCategories(playerJson);
             Log.d("myLog","player settings " + playerJson.getName() + " " + playerJson.getUid() + " " + playerJson.getPassword());
           }
 

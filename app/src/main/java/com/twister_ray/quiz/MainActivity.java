@@ -2,15 +2,9 @@ package com.twister_ray.quiz;
 
 import android.Manifest;
 import android.Manifest.permission;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,15 +17,10 @@ import androidx.lifecycle.ViewModelProvider;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
   private AppViewModel mAppViewModel;
-  private DataLoader dataLoader;
   public static final int PERMISSION_WRITE = 0;
   FragmentTransaction fTransaction;
   PlayMenu playMenu;
@@ -43,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     playerRegistration = new PlayerRegistration();
     playMenu = new PlayMenu();
     mAppViewModel = new ViewModelProvider(this).get(AppViewModel.class);
-    dataLoader = new DataLoader(mAppViewModel);
     checkPermission();
     mAppViewModel.getPlayerSettings().subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())

@@ -44,7 +44,6 @@ public class PlayerRegistration extends Fragment {
           Log.d("myLog", "Start upload");
           String name = editTextName.getText().toString();
           dataLoader.registerPlayer(name);
-          dataLoader.loadCategories();
           PlayMenu playMenu = new PlayMenu();
           FragmentTransaction fTransaction = getActivity().getSupportFragmentManager().beginTransaction();
           fTransaction.replace(R.id.fragmentContent, playMenu);
